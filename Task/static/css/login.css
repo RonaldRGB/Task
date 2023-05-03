@@ -1,0 +1,30 @@
+body{
+    background-image: url("../img/Fundo01.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.conteinerLogin{
+    background-color: rgb(255, 255, 255);
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 4px 4px 13px 0px black;
+}
+
+    .conteinerLogin input {
+        margin: 5px 0 5px 0;
+        padding: 5px;
+        font-size: 17px;
+        display: flex;
+    }
+
+    .conteinerLogin button{
+        width: 100%;
+        text-align: center;
+        padding: 5px;
+    }

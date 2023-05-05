@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+    <div id="menuLateral">
+        <table class="tableMenuLateral">
+            <tr>
+                <td>
+                    <table>
+                        <tr><td>Informações do usuário logado</td></tr>
+                        <tr><td style="padding: 5px;"></td></tr>
+                        <tr><td>Usuário</td></tr>
+                        <tr><td>
+                            <input type="text" readonly value="{{ usuario_logado }}">
+                        </td></tr>
+                        <tr><td>Nome</td></tr>
+                        <tr><td>
+                            <input type="text" readonly value="{{ nome_usuario_logado }}">
+                        </td></tr>
+                        <tr><td>E-Mail</td></tr>
+                        <tr><td>
+                            <input type="text" readonly value="{{ mail_usuario_logado }}">
+                        </td></tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-top: 20px;">
+                    <nav>
+                        <ul>
+                            <li><a href=""><b>Tarefas</b></a></li>
+                            <li><a href=""><b>Usuários</b></a></li>
+                            <li><a href="{{ url_for('logout') }}">Sair</a></li>
+                        </ul>
+                    </nav>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

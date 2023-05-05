@@ -1,0 +1,84 @@
+.conteinerLogo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 25px 10px 10px;
+    background-color: rgb(96, 134, 103);
+}
+
+    .conteinerLogo img{
+        width: 50px;
+    }
+
+    .conteinerLogo span{
+        font-size: 30px;
+    }
+
+    .conteinerLogo div{
+        display: flex;
+        align-items: center;
+    }
+
+#acaoMenuLateral {
+    position: relative;
+    z-index: 1;
+}
+
+#menuLateral{
+    background-color: rgb(131, 137, 138);
+    color: #ffffff;
+    width: 300px;
+    right: 0;
+    top: 0;
+    position: fixed;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: start;
+}
+
+    #menuLateral a{
+        color: #ffffff;
+        width: 100%;
+        display: flex;
+        border-bottom: 1px solid #ffffff;
+        height: 100%;
+        justify-content: center;
+        align-items: end;
+        border-top-left-radius: 30px;
+        border-top-right-radius: 30px;
+        font-size: 20px;
+    }
+
+    #menuLateral a:hover {
+        background-color: rgb(197, 200, 201);
+        transition: 1s;
+        color: rgb(83, 86, 87);
+    }
+
+    #menuLateral li{
+        height: 40px;
+    }
+
+.tableMenuLateral {
+    text-align: center;
+    width: 280px;
+    border-collapse: collapse;
+    margin-top: 100px;
+}
+
+    .tableMenuLateral table{
+        width: 100%;
+        border: 1px solid white;
+        border-radius: 5px;
+    }
+
+    .tableMenuLateral input{
+        padding: 5px;
+        text-align: center;
+        margin-bottom: 10px;
+        cursor: default;
+        border-radius: 5px;
+        border: none;
+        width: 90%;
+    }

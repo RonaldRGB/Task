@@ -1,0 +1,81 @@
+{% extends "cabecalho.html" %}
+{% block conteudo %}
+
+<div class="fundoCenter">
+    <table class="tableTask" id="tableUsuarios">
+        <thead>
+            <tr>
+                <th colspan="6">
+                    <div style="display: flex; justify-content: end;">
+                        <button class="buttoncriartask" onclick="abrir_CriarUsuario()">Criar Usuário</button>
+                    </div>
+                </th>
+            </tr>
+            <tr>
+                <th hidden>ID</th>
+                <th style="width: 150px;">Usuário</th>
+                <th>Nome</th>
+                <th>E-Mail</th>
+                <th style="width: 150px;">Tipo de Usuario</th>
+                <th style="width: 80px;">Detalhar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in usuarios %}
+            <tr>
+                <td hidden>{{ row.id }}</td>
+                <td>{{ row.usuario }}</td>
+                <td>{{ row.nome }}</td>
+                <td>{{ row.mail }}</td>
+                <td>{{ row.tipousuario }}</td>
+                <td><span class="material-symbols-outlined" onclick="abrir_detalhamento()">edit_square</span></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="fundoTransparente" id="fundoTransparenteDetalhar" onclick="fundoTransparenteDetalhar()"></div>
+    <div class="containerForm" id="containerFormDetalhar">
+        <form action="{{ url_for('editaUsuario') }}" method="post" style="width: 100%;">
+            <table class="tableform">
+                <tr hidden=><td><input type="text" readonly name="id_usuario" id="id_usuario"></td></tr>
+                <tr><td><label>Usuario</label></td></tr>
+                <tr><td><input type="text" id="Usuario" name="Usuario"></td></tr>
+                <tr><td><label>Nome</label></td></tr>
+                <tr><td><input type="text" id="Nome" name="Nome"></td></tr>
+                <tr><td><label>E-Mail</label></td></tr>
+                <tr><td><input type="email" id="mail" name="mail"></td></tr>
+                <tr>
+                    <td style="padding-right: 5px;"><label>Tipo de usuario</label></td>
+                </tr>
+                <tr>
+                    <td>
+                        <select name="tipoUsuario" id="tipoUsuario">
+                            <option value=""></option>
+                            <option value="Administrador">Administrador</option>
+                            <option value="Comum">Comum</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div style="display: flex;justify-content: start;">
+                            <input type="checkbox" name="resetarsenha" id="resetarsenha" style="width: min-content; margin: 0 5px 0 0;">
+                            <label for="resetarsenha">Resetar senha</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="display: flex; justify-content: space-between; padding-top: 20px;">
+                        <button type="submit" id="buttonSalvarDetalhamento">Salvar</button>
+                        <button type="submit" id="buttonDeletarDetalhamento">Deletar</button>
+                        <button type="submit" id="buttonCancelarDetalhamento">Cancelar</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/usuarios.js') }}"></script>
+
+{% endblock %}

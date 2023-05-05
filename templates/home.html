@@ -1,0 +1,245 @@
+{% extends "cabecalho.html" %}
+{% block conteudo %}
+
+<div class="fundoCenter">
+    <table class="tableTask" id="tableTask">
+        <thead>
+            <tr>
+                <th colspan="6">
+                    <div style="display: flex; justify-content: space-between;">
+                        <input type="text" id="filtraNomeTask" onchange="filtrarTabela()" style="padding: 3px; font-size: 15px; border-radius: 5px;">
+                        <div>
+                            <button class="buttoncriartask" onclick="abreFiltroTask()">Filtro</button>
+                            <button class="buttoncriartask" onclick="LimparFiltroTask()">Limpar Filtro</button>
+                            <button class="buttoncriartask" onclick="abrir_CriarTask()">Criar Tarefa</button>
+                        </div>
+                    </div>
+                </th>
+            </tr>
+            <tr>
+                <th style="width: 50px;" hidden="hidden">ID</th>
+                <th style="width: 100px;">Prioridade</th>
+                <th style="width: max-content;">Titulo</th>
+                <th style="width: 125px;">Status</th>
+                <th style="width: 140px;">Data de Criação</th>
+                <th style="width: 80px;">Detalhar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in lista %}
+                <tr>
+                    <td hidden="hidden">{{ row.id }}</td>
+                    {% if row.prioridade == 'Baixa' %}
+                        <td style="background-color: rgba(0, 128, 0, 0.350);">{{ row.prioridade }}</td>
+                    {% endif %}
+                    {% if row.prioridade == 'Média' %}
+                        <td style="background-color: rgba(255, 255, 0, 0.500);">{{ row.prioridade }}</td>
+                    {% endif %}
+                    {% if row.prioridade == 'Alta' %}
+                        <td style="background-color: rgba(255, 0, 0, 0.400);">{{ row.prioridade }}</td>
+                    {% endif %}
+                    <td>{{ row.titulo }}</td>
+                    <td>{{ row.status }}</td>
+                    <td>{{ row.datacriacao }}</td>
+                    <td><span class="material-symbols-outlined" onclick="abrir_detalhamento()">edit_square</span></td>
+                    <td hidden="hidden">{{ row.dataconclusao }}</td>
+                    <td hidden="hidden">{{ row.comentario }}</td>
+                    <td hidden="hidden">{{ row.datahoracriacao }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="fundoTransparente" id="fundoTransparenteDetalhar" onclick="fundoTransparenteDetalhar()"></div>
+    <div class="containerForm" id="containerFormDetalhar">
+        <form action="{{ url_for('editatask') }}" method="post">
+            <table class="tableform">
+                <tr hidden="hidden"><td colspan="2"><input type="text" readonly="readonly" name="id_Detalhamento" id="id_Detalhamento"></td></tr>
+                <tr><td colspan="2"><label>Titulo</label></td></tr>
+                <tr><td colspan="2"><input type="text" id="titulo_Detalhamento" name="titulo_Detalhamento"></td></tr>
+                <tr>
+                    <td colspan="2">
+                        <table>
+                            <tr>
+                                <td style="padding-right: 5px;"><label>Prioridade</label></td>
+                                <td style="padding-left: 5px;"><label>Status</label></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <table>
+                            <tr>
+                                <td style="padding-right: 5px;">
+                                    <select name="prioridade_Detalhamento" id="prioridade_Detalhamento">
+                                        <option value=""></option>
+                                        <option value="Baixa">Baixa</option>
+                                        <option value="Média">Média</option>
+                                        <option value="Alta">Alta</option>
+                                    </select>
+                                </td>
+                                <td style="padding-left: 5px;">
+                                    <select name="status_Detalhamento" id="status_Detalhamento">
+                                        <option value=""></option>
+                                        <option value="Pendente">Pendente</option>
+                                        <option value="Em andamento">Em andamento</option>
+                                        <option value="Concluído">Concluído</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <table>
+                            <tr>
+                                <td style="padding-right: 5px;"><label>Data de Criação</label></td>
+                                <td style="padding-left: 5px;"><label>Data de Conclusão</label></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <td style="padding-right: 5px;"><input type="text" readonly="readonly" id="datacriacao_Detalhamento"></td>
+                                <td style="padding-left: 5px;"><input type="text" readonly="readonly" id="dataconclusao_Detalhamento"></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr><td colspan="2"><label>Comentários</label></td></tr>
+                <tr><td colspan="2"><textarea cols="63" rows="21" id="descricao_Detalhamento" name="descricao_Detalhamento"></textarea></td></tr>
+                <tr>
+                    <td colspan="2" style="display: flex; justify-content: space-between; padding-top: 20px;">
+                        <button type="submit" id="buttonSalvarDetalhamento">Salvar</button>
+                        <button type="submit" id="buttonDeletarDetalhamento">Deletar</button>
+                        <button type="submit" id="buttonCancelarDetalhamento">Cancelar</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <div class="fundoTransparente" id="fundoTransparenteCriarTask" onclick="fundoTransparenteCriarTask()"></div>
+    <div class="containerForm" id="containerFormCriarTask">
+        <form action="{{ url_for('criartask') }}" method="post">
+            <table class="tableform">
+                <tr><td colspan="2"><label>Titulo</label></td></tr>
+                <tr><td colspan="2"><input type="text" id="titulo_CriarTask" name="titulo_CriarTask"></td></tr>
+                <tr>
+                    <td colspan="2">
+                        <table>
+                            <tr>
+                                <td style="padding-right: 5px;"><label>Prioridade</label></td>
+                                <td style="padding-left: 5px;"><label>Status</label></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <table>
+                            <tr>
+                                <td style="padding-right: 5px;">
+                                    <select name="prioridade_CriarTask" id="prioridade_CriarTask">
+                                        <option value=""></option>
+                                        <option value="Baixa">Baixa</option>
+                                        <option value="Média">Média</option>
+                                        <option value="Alta">Alta</option>
+                                    </select>
+                                </td>
+                                <td style="padding-left: 5px;">
+                                    <select name="status_CriarTask" id="status_CriarTask">
+                                        <option value=""></option>
+                                        <option value="Pendente">Pendente</option>
+                                        <option value="Em andamento">Em andamento</option>
+                                        <option value="Concluído">Concluído</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr><td colspan="2"><label>Comentários</label></td></tr>
+                <tr><td colspan="2"><textarea cols="63" rows="25" id="descricao_CriarTask" name="descricao_CriarTask"></textarea></td></tr>
+                <tr>
+                    <td colspan="2" style="display: flex; justify-content: space-between; padding-top: 20px;">
+                        <button type="submit" id="buttonSalvarCriarTask">Salvar</button>
+                        <button type="submit" id="buttonCancelarCriarTask">Cancelar</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div class="fundoTransparente" id="fundoTransparenteDeleteTask"></div>
+    <div class="containerconfimardeletetask" id="containerconfimardeletetask">
+        <form action="{{ url_for('deletatask') }}" method="post">
+            <input type="text" name="id_Deletatask" id="id_Deletatask" hidden="hidden">
+            <span>Deseja deleta esta tarefa?</span>
+            <div>
+                <button>Sim</button>
+                <button id="buttonNaoDelete">Não</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="fundoTransparente" id="fundoTransparenteFiltroTask">
+        <div class="fundoContainerFiltro">
+            <table class="tableFiltroTask">
+                <tr style="cursor: pointer;" onclick="abreMenuFiltroCategoria()">
+                    <td style="background-color: rgba(0, 0, 0, 0.350); padding: 5px;">Categoria</td>
+                </tr>
+                <tr><td style="padding: 3px;"></td></tr>
+                <tr style="display: none;" id="MenuFiltroCategoria">
+                    <td>
+                        <table>
+                            <tr><td>Prioridade</td></tr>
+                            <tr><td>
+                                <select multiple id="selectPrioridadeTask">
+                                    <option value="Baixa">Baixa</option>
+                                    <option value="Média">Média</option>
+                                    <option value="Alta">Alta</option>
+                                </select>
+                            </tr></td>
+                            <tr><td>Status</td></tr>
+                            <tr><td>
+                                <select multiple id="selectStatusTask">
+                                    <option value="Pendente">Pendente</option>
+                                    <option value="Em andamento">Em andamento</option>
+                                    <option value="Concluído">Concluído</option>
+                                </select>
+                            </td></tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr style="cursor: pointer;" onclick="abreMenuFiltroData()">
+                    <td style="background-color: rgba(0, 0, 0, 0.350); padding: 5px;">Data</td>
+                </tr>
+                <tr><td style="padding: 3px;"></td></tr>
+                <tr style="display: none;" id="MenuFiltroData">
+                    <td>
+                        <table>
+                            <tr><td>Data Inicio</td></tr>
+                            <tr><td><input type="date" id="dataInicioFiltroTask"></td></tr>
+                            <tr><td>Data Fim</td></tr>
+                            <tr><td><input type="date" id="dataFimFiltroTask"></td></tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="display: flex; justify-content: space-between;">
+                        <button onclick="aplicarFiltroTask()">Aplicar</button>
+                        <button onclick="fecharFiltroTask()">Cancelar</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/tarefas.js') }}"></script>
+
+{% endblock %}
